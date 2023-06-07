@@ -9,7 +9,31 @@
 </head>
 <body>
     <div id="app">
-        App contador
+        <div class="firstContent">
+            <div class="statsPanel"></div>
+            <div class="dialogButtonsBar">
+                <button id="btnOnlineDialog">Online: 0</button>
+                <button id="btnResetDialog">Resetar</button>
+                <button id="btnSaveDialog">Salvar</button>
+            </div>
+        </div>
+        <div class="secondContent">
+        </div>
     </div>
+    <dialog id="onlineCountDialog">
+        <input type="number">
+    </dialog>
+    <dialog id="resetDialog">
+        <span>Tem certeza que deseja resetar?</span>
+        <div>
+            <button id="yes">Sim</button>
+            <button id="all">Tudo</button>
+            <button id="no">Não</button>
+        </div>
+    </dialog>
+    <script src="static/js/app.js"></script>
+    <script src="static/js/onlineDialog.js"></script>
+    <script src="static/js/resetDialog.js"></script>
+    <script src="static/js/saveDialog.js"></script>
 </body>
 </html>
