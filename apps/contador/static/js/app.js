@@ -34,12 +34,27 @@ function selectPlace(event){
     selectedPlaceIndex = places.map((p,i)=>[p,i]).filter(([p]) => p === event.target.innerText)[0][1] || 0;
 }
 
+function subtractCategory(event){
+    if(clock){
+        hasSubtracted = true;
+        const selectedCategory = categories.filter(({value}) => value == event.target.getAttribute('value'))[0].value || categories[0].value;
+        counts[places[selectedPlaceIndex]][selectedCategory]=Math.max(0, counts[places[selectedPlaceIndex]][selectedCategory]-1);
+        drawStatsPanel();
+        if(hasVibrate){
+            navigator.vibrate(200);
+        }
+    }
+}
+
 function addCategory(event){
-    const selectedCategory = categories.filter(({value}) => value == event.target.getAttribute('value'))[0].value || categories[0].value;
-    counts[places[selectedPlaceIndex]][selectedCategory]++;
-    drawStatsPanel();
-    if(hasVibrate){
-        navigator.vibrate(100);
+    if(clock === undefined && !hasSubtracted){
+        hasSubtracted = false;
+        const selectedCategory = categories.filter(({value}) => value == event.target.getAttribute('value'))[0].value || categories[0].value;
+        counts[places[selectedPlaceIndex]][selectedCategory]++;
+        drawStatsPanel();
+        if(hasVibrate){
+            navigator.vibrate(100);
+        }
     }
 }
 
@@ -60,9 +75,22 @@ function drawStatsPanel(){
 
 secondContent.innerHTML = `
     ${categories.map(({value, label})=>
-        `<button onclick="addCategory(event)" value=${value}>${label}</button>`
+        `<button onclick="addCategory(event)" onmousedown="startLongPress(event)" onmouseup="stopLongPress(event)" value=${value}>${label}</button>`
     ).reduce(listToString)}
 `
 
-
 drawStatsPanel();
+
+var clock = undefined;
+var hasSubtracted = false;
+function startLongPress(event){
+    hasSubtracted = false;
+    clock = setTimeout(()=>{
+        subtractCategory(event);
+        clock = undefined;
+    },500);
+}
+function stopLongPress(event){
+    clearTimeout(clock);
+    clock = undefined;
+}

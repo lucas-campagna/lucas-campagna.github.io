@@ -27,7 +27,7 @@ div, button, span{
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: stretch;
+    justify-content: center;
     padding: 5%;
 }
 
@@ -43,7 +43,7 @@ div, button, span{
     background-color: whitesmoke;
     border: none;
     border-radius: 5px;
-    font-size: 1.9rem;
+    font-size: 8vw;
 }
 
 .secondContent > button:active{
@@ -53,14 +53,21 @@ div, button, span{
 .statsPanel{
     background-color: var(--light-background-color);
     border-radius: 5px;
-    margin: 5%;
-    padding: 20px;
+    padding: 5vw;
     color: white;
     display: flex;
     flex-direction: row;
     align-items: stretch;
     justify-content: stretch;
-    gap: 20px;
+    gap: 8vw;
+}
+.statsContentWrapper > span {
+    font-size: 5vw;
+    
+}
+
+.dialogContent{
+    margin: 5%;
 }
 
 .dialogButtonsBar{
@@ -73,7 +80,7 @@ div, button, span{
     color: white;
     border: none;
     border-radius: 5px;
-    font-size: 1rem;
+    font-size: 5vw;
     padding: 5px;
 }
 
@@ -91,7 +98,7 @@ div, button, span{
     gap: 10%;
 }
 .statsPlaceWrapper > button {
-    font-size: 1.6rem;
+    font-size: 8vw;
     background-color: whitesmoke;
     border: none;
     border-radius: 5px;
@@ -116,7 +123,7 @@ dialog{
     padding: 10%;
 }
 dialog > input{
-    font-size: 1.2em;
+    font-size: 5vw;
 }
 
 dialog::backdrop{
@@ -126,10 +133,26 @@ dialog::backdrop{
 
 #resetDialog span, #resetDialog button{
     font-family: sans-serif;
-    font-size: 1.2em;
+    font-size: 5vw;
 }
 #resetDialog > div{
     display: flex;
     justify-content: space-evenly;
     margin-top: 10px;
+}
+
+#saveDialogContent{
+    font-size: 5vw;
+}
+
+#saveDialog{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#saveDialogOKButton{
+    margin: 2vw;
+    font-size: 5vw;
 }
