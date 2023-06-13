@@ -6,32 +6,28 @@ const saveDialogContent = document.querySelector('#saveDialogContent')
 const code='AKfycbxZ_R_7UJ4qw-3lLaqVQYaefr0jGieKJ9Qil3W7nBPNy1pbzdqdJjoaMEmt7EC9XV7tog'
 const link_to_sheet = `https://script.google.com/macros/s/${code}/exec?action=addData`
 
-
-var copyToClipboard = false;
-saveDialogOKButton.onclick = ()=>{
-    saveDialog.close()
-    if(copyToClipboard && 'clipboard' in navigator){
+async function copyToClipboard(){
+    if('clipboard' in navigator){
         navigator.clipboard.writeText(generateResumeText())
-        saveDialog.showModal()
-        setDialogMsg('Dados copiados para área de transferência, cole no chat do whatsapp');
-        setSaveDialogButton('OK')
-        copyToClipboard = false
+        await setSaveDialog('Dados copiados para área de transferência, cole no chat do whatsapp');
     }
 }
-setSaveDialogButton()
-setDialogMsg()
 
-btnSaveDialog.onclick = ()=>{
-    saveDialog.showModal()
-    fetchData();
-}
+// saveDialogOKButton.onclick = async()=>{
+//     await setSaveDialog()
+//     if('clipboard' in navigator){
+//         navigator.clipboard.writeText(generateResumeText())
+//         setSaveDialog('Dados copiados para área de transferência, cole no chat do whatsapp');
+//     }
+// }
+
+btnSaveDialog.onclick = fetchData;
 
 function getCountsOnline(){
     return +document.querySelector('#btnOnlineDialog').innerText.match(/Online: (\d+)/)[1]
 }
 
-function fetchData(){
-    copyToClipboard = true;
+async function fetchData(){
     if(navigator.onLine){
 
         const {data, horario} = gerarHorarioData();
@@ -49,46 +45,46 @@ function fetchData(){
             online: getCountsOnline(),
         }
         try{
-            setDialogMsg('Salvando dados ...');
-            fetch(
-                link_to_sheet,{
+            setSaveDialog('Salvando dados ...','');
+            const txt = await fetch(
+                link_to_sheet,
+                {
                     method:'POST',
-                    headers: {
-                        "Content-Type": "application/json",
-                        // "Access-Control-Allow-Origin": "https://script.google.com",
-                        // "Access-Control-Allow-Methods": "POST",
-                        // "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With",
-                    },
+                    mode: 'cors',
                     body:JSON.stringify(body)
                 }
-            )
-            .then(e=>e.text())
-            .then(txt=>{
-                setDialogMsg(`Valores ${txt == 'Append'? 'adicionados à' : 'atualizados na'} tabela`)
-                setSaveDialogButton("OK")
-            })
+            ).then(e=>e.text())
+            await setSaveDialog(`Valores ${txt == 'Append'? 'adicionados à' : 'atualizados na'} tabela`)
         }catch{
-            setDialogMsg('Falha ao salvar dados na planilha')
-            setSaveDialogButton("OK")
+            await setSaveDialog('Falha ao salvar dados na planilha')
         }
     }else{
-        setDialogMsg("Sem conexão com a internet")
-        setSaveDialogButton("fechar")
+        await setSaveDialog("Sem conexão com a internet",'fechar')
     }
-
+    await copyToClipboard();
 }
 
-function setSaveDialogButton(msg=''){
-    saveDialogOKButton.innerText = msg
-    if(msg === '')
-        saveDialogOKButton.style.visibility = 'hidden'
-    else{
-        saveDialogOKButton.style.visibility = 'visible'
-    }
-}
-
-function setDialogMsg(msg=''){
-    saveDialogContent.innerText = msg;
+function setSaveDialog(msg,btn='OK'){
+    return new Promise(resolve=>{
+            if(msg){
+                saveDialogContent.innerText = msg || '';
+            if(btn){
+                saveDialogOKButton.style.display = '';
+                saveDialogOKButton.innerText = btn;
+                saveDialogOKButton.onclick = ()=>{
+                    saveDialog.close();
+                    resolve();
+                };
+            }
+            else
+                saveDialogOKButton.style.display = 'none';
+            if(saveDialog.open)
+                saveDialog.close()            
+            saveDialog.showModal()
+        }else{
+            saveDialog.close()
+        }
+    })
 }
 
 function gerarHorarioData(){

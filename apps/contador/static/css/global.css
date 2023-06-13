@@ -145,11 +145,12 @@ dialog::backdrop{
     font-size: 5vw;
 }
 
-#saveDialog{
+#saveDialogWrapper{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-family: sans-serif;
 }
 
 #saveDialogOKButton{
