@@ -1,10 +1,15 @@
 
 async function install(){
-    // alert('Instalando App')
     deferredPrompt.prompt()
-    const {outcome} = await deferredPrompt.userChoice;
+    await deferredPrompt.userChoice;
     deferredPrompt = undefined;
-    alert(outcome)
+    closeInstallDialog();
+}
+
+function closeInstallDialog(){
+    const installDialog = document.querySelector('#installDialog')
+    if(installDialog.open)
+        installDialog.close();
 }
 
 function isInstalled(){

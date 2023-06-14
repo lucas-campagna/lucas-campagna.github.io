@@ -169,3 +169,16 @@ dialog::backdrop{
     margin: 2vw;
     font-size: 5vw;
 }
+
+#installDialog > button{
+    font-family: sans-serif;
+    font-size: 5vw;
+    background-color: whitesmoke;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+#installDialog > button:active{
+    background-color: color-mix(in lch, whitesmoke, black 30%);
+}
