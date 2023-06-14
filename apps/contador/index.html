@@ -9,8 +9,15 @@
     <link rel="stylesheet" href="static/css/global.css">
     <link rel="manifest" href="manifest.json">
     <script>
+        var deferredPrompt;
+        window.addEventListener('beforeinstallprompt', async (e) => {
+            e.preventDefault();
+            deferredPrompt = e
+            const installDialog = document.querySelector('#installDialog')
+            if(!installDialog.open && !isInstalled())
+                installDialog.showModal();
+        })
         if('serviceWorker' in navigator){
-            navigator.serviceWorker.ready
             navigator.serviceWorker.register('sw.js').then(registration=>{
                 registration.update();
             });
@@ -49,9 +56,13 @@
             <button id="saveDialogOKButton"></button>
         </div>
     </dialog>
+    <dialog id="installDialog">
+        <button onclick="install()">Instalar</button>
+    </dialog>
     <script src="static/js/app.js"></script>
     <script src="static/js/onlineDialog.js"></script>
     <script src="static/js/resetDialog.js"></script>
     <script src="static/js/saveDialog.js"></script>
+    <script src="static/js/installDialog.js"></script>
 </body>
 </html>
