@@ -10,7 +10,10 @@
     <link rel="manifest" href="manifest.json">
     <script>
         if('serviceWorker' in navigator){
-            navigator.serviceWorker.register('sw.js');
+            navigator.serviceWorker.ready
+            navigator.serviceWorker.register('sw.js').then(registration=>{
+                registration.update();
+            });
         }
     </script>
 </head>

@@ -3,6 +3,7 @@ const btnSaveDialog = document.querySelector('#btnSaveDialog')
 const saveDialog = document.querySelector('#saveDialog')
 const saveDialogContent = document.querySelector('#saveDialogContent')
 
+// const code='AKfycbxZ_A_7UJ4qw-3lLaqVQYaefr0jGieKJ9Qil3W7nBPNy1pbzdqdJjoaMEmt7EC9XV7tog'
 const code='AKfycbxZ_R_7UJ4qw-3lLaqVQYaefr0jGieKJ9Qil3W7nBPNy1pbzdqdJjoaMEmt7EC9XV7tog'
 const link_to_sheet = `https://script.google.com/macros/s/${code}/exec?action=addData`
 
@@ -53,7 +54,8 @@ async function fetchData(){
                     mode: 'cors',
                     body:JSON.stringify(body)
                 }
-            ).then(e=>e.text())
+            )
+            .then(e=>e.text())
             await setSaveDialog(`Valores ${txt == 'Append'? 'adicionados à' : 'atualizados na'} tabela`)
         }catch{
             await setSaveDialog('Falha ao salvar dados na planilha')

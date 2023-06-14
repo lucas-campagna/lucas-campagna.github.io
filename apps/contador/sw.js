@@ -24,11 +24,22 @@ self.addEventListener('install', event => {
     })
 })
 
+async function updateCache(request){
+    try{
+        const networkResponse = await fetch(request);
+        const cache = await caches.open('v1')
+        cache.put(request, networkResponse.clone());
+    } catch(e){
+        console.log(e)
+    }
+}
+
 async function cacheFirst({request}){
     const cacheResponse = await caches.match(request)
-    if(cacheResponse)
+    if(cacheResponse){
+        updateCache(request);
         return cacheResponse;
-    console.log('no catch found')
+    }
     const networkResponse = await fetch(request);
     const cache = await caches.open('v1');
     cache.put(request, networkResponse.clone());
