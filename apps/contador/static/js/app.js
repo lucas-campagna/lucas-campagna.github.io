@@ -75,7 +75,7 @@ function drawStatsPanel(){
 
 secondContent.innerHTML = `
     ${categories.map(({value, label})=>
-        `<button onclick="addCategory(event)" onmousedown="startLongPress(event)" onmouseup="stopLongPress(event)" value=${value}>${label}</button>`
+        `<button onclick="addCategory(event)" touchstart="startLongPress(event)" touchend="stopLongPress(event)" onmousedown="startLongPress(event)" onmouseup="stopLongPress(event)" value=${value}>${label}</button>`
     ).reduce(listToString)}
 `
 
@@ -83,6 +83,7 @@ drawStatsPanel();
 
 var clock = undefined;
 var hasSubtracted = false;
+
 function startLongPress(event){
     hasSubtracted = false;
     clock = setTimeout(()=>{
