@@ -75,7 +75,18 @@ function drawStatsPanel(){
 
 secondContent.innerHTML = `
     ${categories.map(({value, label})=>
-        `<button onclick="addCategory(event)" touchstart="startLongPress(event)" touchend="stopLongPress(event)" onmousedown="startLongPress(event)" onmouseup="stopLongPress(event)" value=${value}>${label}</button>`
+        `<button
+            class="clickableButton"
+            onclick="addCategory(event)"
+            ontouchstart="startLongPress(event)"
+            ontouchend="stopLongPress(event)"
+            onmousedown="startLongPress(event)"
+            onmouseup="stopLongPress(event)"
+            oncontextmenu="onContextMenu(event)"
+            value=${value}
+        >
+                ${label}
+        </button>`
     ).reduce(listToString)}
 `
 
@@ -90,8 +101,22 @@ function startLongPress(event){
         subtractCategory(event);
         clock = undefined;
     },500);
+    // event.cancelBubble = true;
+    // event.returnValue = false;
+    // event.preventDefault();
+    // event.stopPropagation();
+    // return false;
 }
 function stopLongPress(event){
     clearTimeout(clock);
     clock = undefined;
+    // event.cancelBubble = true;
+    // event.returnValue = false;
+    // event.preventDefault();
+    // event.stopPropagation();
+    // return false;
+}
+function onContextMenu(event){
+    event.preventDefault();
+    return false;
 }
