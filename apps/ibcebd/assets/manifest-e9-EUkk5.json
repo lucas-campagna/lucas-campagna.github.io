@@ -5,7 +5,7 @@
     "background_color": "#FFFFFF",
     "display": "standalone",
     "orientation": "portrait",
-    "start_url": "/apps/ibcebd",
+    "start_url": "/",
     "scope": "/apps/ibcebd",
     "icons": [
       {
